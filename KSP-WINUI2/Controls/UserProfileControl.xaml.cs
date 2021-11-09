@@ -66,15 +66,10 @@ namespace KSP_WINUI2.Controls
             if (string.IsNullOrEmpty(TbDescription.Text))
                 TbDescription.Visibility = Visibility.Collapsed;
 
-            if (_id == Pages.MainPage.Me.id)
-            {
+            if (user.profile.relationship != "F")
                 GdFavorite.Visibility = Visibility.Collapsed;
-                //it's me
-            }
             else
-            {
                 IndicateFavorite(profile.is_favorite);
-            }
         }
 
         private async void OnFavoriteTapped(object sender, TappedRoutedEventArgs e) => await SetFavorite();

@@ -29,12 +29,13 @@ namespace KSP_WINUI2.Controls
             public string text;
         }
 
-        public InputControl()
+        public InputControl(string placeholder = null)
         {
             this.InitializeComponent();
             var control = new FriendListControl();
             PuDropdown.Child = control;
             control.Listener += OnSelected;
+            TbxMain.PlaceholderText = placeholder ?? "";
         }
 
         private void OnSelected(FriendProfile profile)
@@ -57,7 +58,7 @@ namespace KSP_WINUI2.Controls
         private void ShowNameSuggestion(string name)
         {
             var friendListControl = PuDropdown.Child as FriendListControl;
-            var count = friendListControl.Refresh(name);
+            var count = friendListControl.SearchFriendList(name);
             if (PuDropdown.IsOpen && (count == 0 || string.IsNullOrEmpty(name)))
                 PuDropdown.IsOpen = false;
             else if (!PuDropdown.IsOpen)
@@ -72,6 +73,11 @@ namespace KSP_WINUI2.Controls
                 var name = text.Substring(text.IndexOf("@")+1);
                 ShowNameSuggestion(name);
             }
+        }
+
+        internal void AppendText(string append)
+        {
+            TbxMain.Text += append;
         }
     }
 }

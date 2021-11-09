@@ -44,7 +44,11 @@ namespace KSP_WINUI2.Pages
 
         private void OnLoginButtonClick(object sender, RoutedEventArgs e)
         {
-            _isFirstLogin = false;
+            PerformLogin();
+        }
+
+        private void SaveCredentials()
+        {
             var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
             if (CbxAutoLogin.IsChecked == true)
             {
@@ -65,6 +69,11 @@ namespace KSP_WINUI2.Pages
                 if (settings.Values.ContainsKey("Password"))
                     settings.Values.Remove("Password");
             }
+        }
+
+        private void PerformLogin()
+        {
+            _isFirstLogin = false;
             BtLogin.IsEnabled = false;
             PbLogin.Visibility = Visibility.Visible;
             WvMain.Source = new Uri("https://story.kakao.com/s/logout");
@@ -77,7 +86,7 @@ namespace KSP_WINUI2.Pages
                 var isLoggedIn = cookies.Any(x => x.Name == "_karmt");
                 if (BtLogin.IsEnabled == false && !isLoggedIn)
                 {
-                    await new MessageDialog("로그인 실패", "오류").ShowAsync();
+                    await new MessageDialog("로그인이 지연되고 있습니다.\n수동으로 로그인을 시도합니다.", "오류").ShowAsync();
                     WvMain.Visibility = Visibility.Visible;
                 }
             };
@@ -101,6 +110,7 @@ namespace KSP_WINUI2.Pages
                 var isLoggedIn = cookies.Any(x => x.Name == "_karmt");
                 if (isLoggedIn)
                 {
+                    SaveCredentials();
                     var cookieContainer = new CookieContainer();
                     foreach (var cookie in cookies)
                     {
@@ -123,6 +133,22 @@ namespace KSP_WINUI2.Pages
             var httpBaseProtocolFilter = new HttpBaseProtocolFilter();
             var cookieManager = httpBaseProtocolFilter.CookieManager;
             return cookieManager.GetCookies(targetUri);
+        }
+
+        private void OnPasswordKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                PerformLogin();
+            else if (e.Key == Windows.System.VirtualKey.Escape)
+                PbxLogin.Password = "";
+        }
+
+        private void OnEmailKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+                PbxLogin.Focus(FocusState.Keyboard);
+            else if (e.Key == Windows.System.VirtualKey.Escape)
+                TbxLogin.Text = "";
         }
     }
 }

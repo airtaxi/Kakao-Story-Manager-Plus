@@ -113,6 +113,10 @@ namespace KSP_WINUI2.Pages
 
         private void OnLogoutButtonClicked(object sender, RoutedEventArgs e)
         {
+            if(Windows.Storage.ApplicationData.Current.LocalSettings.Values.ContainsKey("Password"))
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values.Remove("Password");
+            if(Windows.Storage.ApplicationData.Current.LocalSettings.Values.ContainsKey("Email"))
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values.Remove("Email");
             Frame.Navigate(typeof(LoginPage));
         }
 

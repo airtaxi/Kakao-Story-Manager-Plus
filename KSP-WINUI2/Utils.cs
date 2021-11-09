@@ -65,25 +65,39 @@ namespace KSP_WINUI2
             flipView.Visibility = Visibility.Visible;
             flipView.ItemsSource = medias;
         }
-        public static void SetTextContent(List<QuoteData> contentDecorators, TextBlock textBlock)
+        public static void SetTextContent(List<QuoteData> contentDecorators, RichTextBlock richTextBlock)
         {
             var wordCount = 0;
+            Paragraph paragraph = new Paragraph();
             foreach (var decorator in contentDecorators)
             {
-                var run = new Run();
-                var text = decorator.text;
-                run.Text = text;
-                wordCount += text.Length;
-
                 if (decorator.type.Equals("profile"))
-                    run.FontWeight = FontWeights.Bold;
-                else if (decorator.type.Equals("hashtag"))
-                    run.FontWeight = FontWeights.Bold;
-
-                textBlock.Inlines.Add(run);
+                {
+                    var hyperlink = new Hyperlink();
+                    hyperlink.FontWeight = FontWeights.Bold;
+                    hyperlink.UnderlineStyle = UnderlineStyle.None;
+                    hyperlink.Inlines.Add(new Run { Text = decorator.text });
+                    hyperlink.Click += (s, e) =>
+                    {
+                        Pages.MainPage.HideOverlay();
+                        Pages.MainPage.ShowProfile(decorator.id);
+                    };
+                    paragraph.Inlines.Add(hyperlink);
+                }
+                else
+                {
+                    var run = new Run();
+                    var text = decorator.text;
+                    run.Text = text;
+                    if (decorator.type.Equals("hashtag"))
+                        run.FontWeight = FontWeights.Bold;
+                    paragraph.Inlines.Add(run);
+                    wordCount += text.Length;
+                }
             }
+            richTextBlock.Blocks.Add(paragraph);
             if (wordCount == 0)
-                textBlock.Visibility = Visibility.Collapsed;
+                richTextBlock.Visibility = Visibility.Collapsed;
         }
         public static async Task SetTextClipboard(string text, string message = "복사되었습니다.")
         {

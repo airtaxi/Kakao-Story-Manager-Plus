@@ -120,6 +120,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ClassManager.cs" />
+    <Compile Include="Controls\CommentControl.xaml.cs">
+      <DependentUpon>CommentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EmotionsControl.xaml.cs">
       <DependentUpon>EmotionsControl.xaml</DependentUpon>
     </Compile>
@@ -176,6 +179,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\CommentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\EmotionsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -233,8 +240,8 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\Data\Repos\KakaoStory-API\Kakao Story API\KakaoStory API.csproj">
-      <Project>{5b78842e-2d5a-466e-ab7b-47e4071a1d13}</Project>
+    <ProjectReference Include="..\KakaoStory-API\Kakao Story API\KakaoStory API.csproj">
+      <Project>{87605285-0d34-44ac-b144-1d63f460375d}</Project>
       <Name>KakaoStory API</Name>
     </ProjectReference>
   </ItemGroup>

@@ -27,25 +27,33 @@ namespace KSP_WINUI2.Controls
             this.InitializeComponent();
         }
 
-        public int Refresh(string query)
+        public void SetSource(List<FriendProfile> source)
         {
             var listView = Content as ListView;
-            if (string.IsNullOrEmpty(query))
+            if (source.Count == 0)
                 listView.Visibility = Visibility.Collapsed;
             else
             {
-                var source = Pages.MainPage.Friends.profiles.Where(x => x.display_name.ToLower().Contains(query.ToLower())).Select(x => new FriendProfile { Id = x.id, Name = x.display_name, ProfileUrl = x.profile_video_url_square_small ?? x.profile_thumbnail_url }).ToList();
-                var count = source.Count;
-                if (source.Count == 0)
-                    listView.Visibility = Visibility.Collapsed;
-                else
-                {
-                    var max = Math.Min(source.Count, 10);
-                    source = source.GetRange(0, max);
-                    listView.Visibility = Visibility.Visible;
-                    listView.ItemsSource = source;
-                    return source.Count;
-                }
+                var max = Math.Min(source.Count, 10);
+                source = source.GetRange(0, max);
+                listView.Visibility = Visibility.Visible;
+                listView.ItemsSource = source;
+            }
+        }
+        public void ShowIds(List<FriendProfile> ids)
+        {
+            SetSource(ids);
+        }
+        public int SearchFriendList(string nameQuery)
+        {
+            var listView = Content as ListView;
+            if (string.IsNullOrEmpty(nameQuery))
+                listView.Visibility = Visibility.Collapsed;
+            else
+            {
+                var source = Pages.MainPage.Friends.profiles.Where(x => x.display_name.ToLower().Contains(nameQuery.ToLower())).Select(x => new FriendProfile { Id = x.id, Name = x.display_name, ProfileUrl = x.profile_video_url_square_small ?? x.profile_thumbnail_url }).ToList();
+                SetSource(source);
+                return source.Count;
             }
             return 0;
         }
