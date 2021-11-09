@@ -1,0 +1,83 @@
+﻿<UserControl
+    x:Class="KSP_WINUI2.Controls.TimelineControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KSP_WINUI2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fa5="using:FontAwesome5"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ButtonBackgroundPointerOver">#00000000</SolidColorBrush>
+    </UserControl.Resources>
+    <Frame>
+        <Grid x:Name="GdMain" Margin="10" Background="White" CornerRadius="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid Margin="10" Padding="20,10,20,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <PersonPicture x:Name="PpUser" Width="50" Tapped="OnUserProfilePictureTapped" PointerEntered="PointerEnteredShowHand" PointerExited="PointerExitedShowHand"/>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="10">
+                    <TextBlock x:Name="TbName" Text="이호원" FontWeight="Bold"/>
+                    <TextBlock x:Name="TbTime" Text="방금 전" Foreground="#ADB0B8" Tapped="TimeTapped" PointerEntered="PointerEnteredShowHand" PointerExited="PointerExitedShowHand" HorizontalAlignment="Left"/>
+                </StackPanel>
+                <StackPanel x:Name="SpMenu" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                    <fa5:FontAwesome x:Name="FaFavorite" Icon="Solid_Star" Foreground="#ACACAC" FontSize="20" Tapped="OnAddBookmarkTapped" Margin="5,0,10,0" PointerEntered="PointerEnteredShowHand" PointerExited="PointerExitedShowHand"/>
+                    <fa5:FontAwesome Icon="Solid_EllipsisV" Foreground="#ACACAC" FontSize="20" Tapped="OnDotMenuTapped" Margin="5,0,0,0" PointerEntered="PointerEnteredShowHand" PointerExited="PointerExitedShowHand"/>
+                    <fa5:FontAwesome x:Name="FaClose" Icon="Regular_WindowClose" Foreground="#ACACAC" FontSize="20" Tapped="CloseButtonClicked" Margin="15,0,0,0" Visibility="Collapsed" PointerEntered="PointerEnteredShowHand" PointerExited="PointerExitedShowHand"/>
+                </StackPanel>
+            </Grid>
+            <ScrollViewer x:Name="SvContent" Grid.Row="1" Margin="5,0,5,5" Padding="20,0,20,0" MaxHeight="600">
+                <StackPanel>
+                    <TextBlock x:Name="TbContent" TextWrapping="Wrap" Margin="5,0,0,0"/>
+                    <Grid Margin="5,10,5,0">
+                        <Rectangle Stroke="LightGray"/>
+                        <FlipView x:Name="FvMedia" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Width="auto" Height="400" Margin="1" Tapped="OnMediaTapped" />
+                    </Grid>
+                    <Frame x:Name="FrShare"/>
+                    <Frame x:Name="FrLink"/>
+                </StackPanel>
+            </ScrollViewer>
+            <StackPanel x:Name="SpEmotions" Orientation="Horizontal" Grid.Row="2" Margin="5" Padding="20,0,20,0" Visibility="Visible">
+                <Button x:Name="BtEmotions" Background="Transparent" Width="40" Height="40" CornerRadius="25" Margin="5">
+                    <fa5:FontAwesome x:Name="FaEmotions" Icon="Solid_Heart" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#888D94"/>
+                </Button>
+                <Button x:Name="BtShare" Background="Transparent" Width="40" Height="40" CornerRadius="25" Margin="5">
+                    <fa5:FontAwesome Icon="Solid_ShareAlt" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#888D94"/>
+                </Button>
+                <Button x:Name="BtUp" Background="Transparent" Width="40" Height="40" CornerRadius="25" Margin="5" Click="OnUpButtonClicked">
+                    <fa5:FontAwesome x:Name="FaUp" Icon="Solid_ArrowUp" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#888D94"/>
+                </Button>
+            </StackPanel>
+            <Frame x:Name="FrShareMargin" Grid.Row="3" Visibility="Collapsed"/>
+            <Grid x:Name="SpComments" Grid.Row="3" Height="55" Background="#FCFCFC" Visibility="Visible">
+                <Border BorderBrush="#F4F4F4" VerticalAlignment="Top" HorizontalAlignment="Stretch" BorderThickness="1"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+                    <AutoSuggestBox x:Name="AsbAttachPhoto" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="30,0,0,0" QuerySubmitted="OnCommentAttatchmentTapped" PlaceholderText="댓글을 입력하세요.">
+                        <AutoSuggestBox.QueryIcon>
+                            <fa5:FontAwesome Icon="Solid_PhotoVideo" Foreground="#DDDDDD" PointerEntered="OnAttachPhotoPointerEntered" PointerExited="OnAttachPhotoPointerExited"/>
+                        </AutoSuggestBox.QueryIcon>
+                    </AutoSuggestBox>
+                    <Button Grid.Column="1" Margin="10,0,30,0" HorizontalAlignment="Stretch" Background="#E96A49">
+                        <TextBlock Text="전송" Foreground="White"/>
+                    </Button>
+                </Grid>
+            </Grid>
+            <Border x:Name="BdShare" CornerRadius="10" BorderBrush="LightGray" Grid.RowSpan="4" BorderThickness="2" Visibility="Collapsed"/>
+        </Grid>
+    </Frame>
+</UserControl>

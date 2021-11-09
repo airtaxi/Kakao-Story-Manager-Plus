@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="KSP_WINUI2.Pages.TimelinePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:KSP_WINUI2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <ScrollViewer ViewChanged="OnScrollViewerViewChanged">
+            <StackPanel>
+                <Frame x:Name="FrProfile" Width="600" Visibility="Collapsed"/>
+                <StackPanel x:Name="SpContent" Width="600"/>
+            </StackPanel>
+        </ScrollViewer>
+        <muxc:ProgressRing x:Name="PrLoading" Foreground="#E96A49" IsIndeterminate="True" VerticalAlignment="Center" Width="100" Height="100" HorizontalAlignment="Center" Visibility="Collapsed"/>
+    </Grid>
+</Page>
