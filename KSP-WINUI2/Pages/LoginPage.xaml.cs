@@ -12,7 +12,7 @@ namespace KSP_WINUI2.Pages;
 
 public sealed partial class LoginPage : Page
 {
-    private static bool _isFirstLogin = true;
+    private static bool IsFirstLogin = true;
     public LoginPage()
     {
         this.InitializeComponent();
@@ -22,7 +22,7 @@ public sealed partial class LoginPage : Page
             TbxLogin.Text = (string)values["Email"];
             PbxLogin.Password = (string)values["Password"];
             CbxAutoLogin.IsChecked = true;
-            if(_isFirstLogin)
+            if(IsFirstLogin)
                 OnLoginButtonClick(null, null);
         }
         WvMain.NavigationCompleted += OnNavigationCompleted;
@@ -59,7 +59,7 @@ public sealed partial class LoginPage : Page
 
     private void PerformLogin()
     {
-        _isFirstLogin = false;
+        IsFirstLogin = false;
         BtLogin.IsEnabled = false;
         PbLogin.Visibility = Visibility.Visible;
         WvMain.Source = new Uri("https://accounts.kakao.com/login?continue=https://story.kakao.com/");
