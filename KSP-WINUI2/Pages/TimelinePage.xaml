@@ -7,15 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <Grid>
-        <ScrollViewer ViewChanged="OnScrollViewerViewChanged">
-            <StackPanel>
-                <Frame x:Name="FrProfile" Width="600" Visibility="Collapsed"/>
-                <StackPanel x:Name="SpContent" Width="600"/>
-            </StackPanel>
-        </ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--<Frame Grid.Row="0" x:Name="FrProfile" Width="600" Visibility="Collapsed"/>-->
+            <ListView Grid.Row="1" x:Name="LvContent" Width="600" SelectionMode="None"/>
+        </Grid>
         <muxc:ProgressRing x:Name="PrLoading" Foreground="#E96A49" IsIndeterminate="True" VerticalAlignment="Center" Width="100" Height="100" HorizontalAlignment="Center" Visibility="Collapsed"/>
     </Grid>
 </Page>

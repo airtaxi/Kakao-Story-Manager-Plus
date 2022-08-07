@@ -14,70 +14,73 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using static KSP_WINUI2.ClassManager;
+using static StoryApi.ApiHandler.DataType;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+namespace KSP_WINUI2.Controls;
 
-namespace KSP_WINUI2.Controls
+public sealed partial class InputControl : UserControl
 {
-    public sealed partial class InputControl : UserControl
+    private string _realString = "";
+    private class Quote
     {
-        private string _realString = "";
-        private class Quote
-        {
-            public string type = "text";
-            public string id;
-            public string text;
-        }
+        public string type = "text";
+        public string id;
+        public string text;
+    }
 
-        public InputControl(string placeholder = null)
-        {
-            this.InitializeComponent();
-            var control = new FriendListControl();
-            PuDropdown.Child = control;
-            control.Listener += OnSelected;
-            TbxMain.PlaceholderText = placeholder ?? "";
-        }
+    public InputControl(string placeholder = null)
+    {
+        this.InitializeComponent();
+        var control = new FriendListControl();
+        PuDropdown.Child = control;
+        control.Listener += OnSelected;
+        TbxMain.PlaceholderText = placeholder ?? "";
+    }
 
-        private void OnSelected(FriendProfile profile)
+    private void OnSelected(FriendProfile profile)
+    {
+        if(profile != null)
         {
-            if(profile != null)
-            {
-                PuDropdown.IsOpen = false;
-                var text = TbxMain.Text;
-                var before = text.Substring(0, text.IndexOf("@"));
-                TbxMain.Text = before + "{!{{" + "\"id\":\"" + profile.Id + "\", \"type\":\"profile\", \"text\":\"" + profile.Name + "\"}}!} ";
-            }
-        }
-
-        public TextBox GetTextBox() => TbxMain;
-        public void SetWidth(double width) => TbxMain.Width = width;
-        public void SetMaxHeight(double maxHeight) => TbxMain.MaxHeight = maxHeight;
-        public void AcceptReturn(bool willAllow) => TbxMain.AcceptsReturn = willAllow;
-        public void WrapText(bool willWrap) => TbxMain.TextWrapping = willWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
-
-        private void ShowNameSuggestion(string name)
-        {
-            var friendListControl = PuDropdown.Child as FriendListControl;
-            var count = friendListControl.SearchFriendList(name);
-            if (PuDropdown.IsOpen && (count == 0 || string.IsNullOrEmpty(name)))
-                PuDropdown.IsOpen = false;
-            else if (!PuDropdown.IsOpen)
-                PuDropdown.IsOpen = true;
-        }
-
-        private void TbxMain_TextChanged(object sender, RoutedEventArgs e)
-        {
+            PuDropdown.IsOpen = false;
             var text = TbxMain.Text;
-            if (text.Contains("@"))
-            {
-                var name = text.Substring(text.IndexOf("@")+1);
-                ShowNameSuggestion(name);
-            }
+            var before = text.Substring(0, text.IndexOf("@"));
+            TbxMain.Text = before + "{!{{" + "\"id\":\"" + profile.Id + "\", \"type\":\"profile\", \"text\":\"" + profile.Name + "\"}}!} ";
+            TbxMain.Focus(FocusState.Keyboard);
+            TbxMain.SelectionStart = TbxMain.Text.Length;
+            TbxMain.SelectionLength = 0;
         }
+    }
 
-        internal void AppendText(string append)
+    public TextBox GetTextBox() => TbxMain;
+    public void SetWidth(double width) => TbxMain.Width = width;
+    public void SetMinHeight(double minHeight) => TbxMain.MinHeight = minHeight;
+    public void SetMaxHeight(double maxHeight) => TbxMain.MaxHeight = maxHeight;
+    public void AcceptReturn(bool willAllow) => TbxMain.AcceptsReturn = willAllow;
+    public void WrapText(bool willWrap) => TbxMain.TextWrapping = willWrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
+
+    public List<QuoteData> GetQuoteDatas() => StoryApi.Utils.GetQuoteDataFromString(TbxMain.Text);
+    private void ShowNameSuggestion(string name)
+    {
+        var friendListControl = PuDropdown.Child as FriendListControl;
+        var count = friendListControl.SearchFriendList(name);
+        if (PuDropdown.IsOpen && (count == 0 || string.IsNullOrEmpty(name)))
+            PuDropdown.IsOpen = false;
+        else if (!PuDropdown.IsOpen)
+            PuDropdown.IsOpen = true;
+    }
+
+    private void TbxMain_TextChanged(object sender, RoutedEventArgs e)
+    {
+        var text = TbxMain.Text;
+        if (text.Contains("@"))
         {
-            TbxMain.Text += append;
+            var name = text.Substring(text.IndexOf("@")+1);
+            ShowNameSuggestion(name);
         }
+    }
+
+    internal void AppendText(string append)
+    {
+        TbxMain.Text += append;
     }
 }

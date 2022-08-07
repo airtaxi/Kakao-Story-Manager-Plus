@@ -2,6 +2,7 @@
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <LangVersion>10.0</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{F417F229-4872-4740-9CCA-878A1D836594}</ProjectGuid>
@@ -123,6 +124,7 @@
     <Compile Include="Controls\CommentControl.xaml.cs">
       <DependentUpon>CommentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataTemplete\TimelineDataTemplete.cs" />
     <Compile Include="Controls\EmotionsControl.xaml.cs">
       <DependentUpon>EmotionsControl.xaml</DependentUpon>
     </Compile>
@@ -143,6 +145,9 @@
     </Compile>
     <Compile Include="Controls\UserProfileControl.xaml.cs">
       <DependentUpon>UserProfileControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\WritePostControl.xaml.cs">
+      <DependentUpon>WritePostControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -211,6 +216,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\WritePostControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\LoginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -230,13 +239,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="FontAwesome5">
-      <Version>2.1.4</Version>
+      <Version>2.1.11</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.13</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.7.0</Version>
+      <Version>2.7.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -245,6 +254,7 @@
       <Name>KakaoStory API</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
