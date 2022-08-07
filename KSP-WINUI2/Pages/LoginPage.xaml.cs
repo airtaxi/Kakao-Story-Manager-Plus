@@ -13,6 +13,7 @@ namespace KSP_WINUI2.Pages;
 public sealed partial class LoginPage : Page
 {
     private static bool IsFirstLogin = true;
+    private bool _hasNavigated = false;
     public LoginPage()
     {
         this.InitializeComponent();
@@ -82,6 +83,7 @@ public sealed partial class LoginPage : Page
     private bool isFirst = true;
     private async void OnNavigationCompleted(WebView sender, WebViewNavigationCompletedEventArgs args)
     {
+        if (_hasNavigated) return;
         await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
         {
             bool wasFirst = isFirst;
@@ -97,6 +99,7 @@ public sealed partial class LoginPage : Page
             var isLoggedIn = cookies.Any(x => x.Name == "_karmt");
             if (isLoggedIn)
             {
+                _hasNavigated = true;
                 SaveCredentials();
                 var cookieContainer = new CookieContainer();
                 foreach (var cookie in cookies)
